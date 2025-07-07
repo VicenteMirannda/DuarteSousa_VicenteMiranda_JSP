@@ -1,12 +1,12 @@
-<?php
-  session_start();
-  if($_SESSION['nivel'] != 3){
-    header('Location: voltar.php');
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="../basedados/basedados.h" %>
+<%
+  // Verificar se o utilizador tem nível de acesso de administrador (3)
+  if(session.getAttribute("nivel") == null || !session.getAttribute("nivel").equals(3)){
+    response.sendRedirect("voltar.jsp");
+    return;
   }
-  include '../basedados/basedados.h';
-
-  
-?>
+%>
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -48,12 +48,12 @@
             <ul class="navbar-nav ms-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="menuadmin.php">Voltar</a>
+                    <a class="nav-link" href="menuadmin.jsp">Voltar</a>
                 </li>
 
                 
                 <li class="nav-item">
-                    <a class="nav-link" href="logout.php">Logout</a>
+                    <a class="nav-link" href="logout.jsp">Logout</a>
                 </li>
                
             </ul>
@@ -65,19 +65,19 @@
 <div class="container center-buttons">
     <div class="row justify-content-center text-center">
         <div class="col-md-6 col-lg-4 mb-3">
-            <a href="listar_utilizadores.php" class="btn btn-primary btn-menu w-100">Listar</a>
+            <a href="listar_utilizadores.jsp" class="btn btn-primary btn-menu w-100">Listar</a>
         </div>
         <div class="col-md-6 col-lg-4 mb-3">
-            <a href="adicionar_utilizadores.php" class="btn btn-primary btn-menu w-100">Adicionar</a>
+            <a href="adicionar_utilizadores.jsp" class="btn btn-primary btn-menu w-100">Adicionar</a>
         </div>
         <div class="col-md-6 col-lg-4 mb-3">
-            <a href="editar_utilizadores.php" class="btn btn-primary btn-menu w-100">Editar</a>
+            <a href="editar_utilizadores.jsp" class="btn btn-primary btn-menu w-100">Editar</a>
         </div>
         <div class="col-md-6 col-lg-4 mb-3">
-            <a href="remover_utilizadores.php" class="btn btn-primary btn-menu w-100">Remover</a>
+            <a href="remover_utilizadores.jsp" class="btn btn-primary btn-menu w-100">Remover</a>
         </div>
          <div class="col-md-6 col-lg-4 mb-3">
-            <a href="aceitar_utilizadores.php" class="btn btn-primary btn-menu w-100">Aceitar Clientes</a>
+            <a href="aceitar_utilizadores.jsp" class="btn btn-primary btn-menu w-100">Aceitar Clientes</a>
         </div>
     </div>
 </div>
