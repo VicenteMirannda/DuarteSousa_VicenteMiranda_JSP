@@ -1,6 +1,5 @@
-<?php
-include '../basedados/basedados.h';
-?>
+<%@ include file="../basedados/basedados.h" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="pt">
 <head>
@@ -37,36 +36,41 @@ include '../basedados/basedados.h';
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="voltar.php">FelixBus</a>
+        <a class="navbar-brand" href="voltar.jsp">FelixBus</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto"> <!-- Alinha os links à direita -->
                 <li class="nav-item">
-                    <a class="nav-link" href="consultar_rotas.php">Consultar Rotas</a>
+                    <a class="nav-link" href="consultar_rotas.jsp">Consultar Rotas</a>
                 </li>  
-                <?php
-                
-                $result = mysqli_query($conn, "SELECT COUNT(*) as total FROM alertas");
-                $row = mysqli_fetch_assoc($result);
-                if ($row['total'] > 0) {
-                    echo '<li class="nav-item">
-                            <a class="nav-link text-warning" href="alertas.php">Alertas <i class="bi bi-bell-fill"></i> <span class="badge bg-danger">'.$row['total'].'</span></a>
-                          </li>';
+                <%
+
+                PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) as total FROM alertas");
+                ResultSet result = stmt.executeQuery();
+                if (result.next()) {
+                    int total = result.getInt("total");
+                    if (total > 0) {
+                        out.print("<li class=\"nav-item\">");
+                        out.print("<a class=\"nav-link text-warning\" href=\"alertas.jsp\">Alertas <i class=\"bi bi-bell-fill\"></i> <span class=\"badge bg-danger\">" + total + "</span></a>");
+                        out.print("</li>");
+                    }
                 }
-                ?>
+                result.close();
+                stmt.close();
+                %>
                
 
                 <li class="nav-item">
-                    <a class="nav-link" href="localizacao.php">Localização</a>
+                    <a class="nav-link" href="localizacao.jsp">Localização</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contactos.php">Contactos</a>
+                    <a class="nav-link" href="contactos.jsp">Contactos</a>
                 </li>
-                
+
                 <li class="nav-item">
-                    <a class="nav-link" href="login.php">Login/Registar</a>
+                    <a class="nav-link" href="login.jsp">Login/Registar</a>
                 </li>
             </ul>
         </div>
