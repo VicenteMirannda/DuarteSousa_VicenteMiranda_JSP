@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 02-Jul-2025 às 13:58
+-- Tempo de geração: 07-Jul-2025 às 19:42
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -62,13 +62,6 @@ CREATE TABLE `bilhete` (
   `preco` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Extraindo dados da tabela `bilhete`
---
-
-INSERT INTO `bilhete` (`id_bilhete`, `id_viagem`, `id_utilizador`, `cidade_origem`, `cidade_destino`, `data_viagem`, `hora`, `preco`) VALUES
-(13, 7, 11, 'Lisboa', 'Leiria', '2025-05-27', '16:50:52', 6);
-
 -- --------------------------------------------------------
 
 --
@@ -86,11 +79,9 @@ CREATE TABLE `carteiras` (
 --
 
 INSERT INTO `carteiras` (`id_carteira`, `id_utilizador`, `saldo`) VALUES
-(5, 11, 34),
-(6, 7, 0),
-(7, 9, 0),
-(8, 8, 0),
-(9, 12, 0);
+(12, 26, 0),
+(13, 27, 0),
+(14, 28, 0);
 
 -- --------------------------------------------------------
 
@@ -131,19 +122,6 @@ CREATE TABLE `estratos_bancarios` (
   `valor` int(11) NOT NULL,
   `tipo_transacao` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Extraindo dados da tabela `estratos_bancarios`
---
-
-INSERT INTO `estratos_bancarios` (`id_transacao`, `id_carteira`, `id_utilizador`, `data_transacao`, `valor`, `tipo_transacao`) VALUES
-(10, 5, 11, '2025-06-17', 100, 1),
-(11, 5, 11, '2025-06-17', 50, 0),
-(12, 5, 11, '2025-06-17', 6, 0),
-(13, 5, 11, '2025-06-17', 11, 0),
-(14, 5, 11, '2025-06-17', 11, 1),
-(15, 5, 8, '2025-06-17', 4, 0),
-(16, 5, 11, '2025-06-17', 6, 0);
 
 -- --------------------------------------------------------
 
@@ -271,11 +249,9 @@ CREATE TABLE `utilizadores` (
 --
 
 INSERT INTO `utilizadores` (`id_utilizador`, `nome_utilizador`, `password`, `email`, `data_nasc`, `nivel_acesso`) VALUES
-(7, 'admin', '$2y$10$1PtiVf3MZvk8pDOp04Tzk.e3jDNBQCQo6zJN.hIkdiTtsQBjumtPq', 'admin@ipcb.pt', '2004-06-08', 3),
-(8, 'funcionario', '$2y$10$yOItugAzQVNsOliSHkfOOu4rGNrju1lT3KMRrY9rm4FRyf9GNILkC', 'funcionario@ipcb.pt', '2001-12-31', 2),
-(9, 'cliente', '$2y$10$vaCpnDIC7gbd/2rT0xTZFuAqfU5Y0Db2YFmqKZzZEGp013ViXrW8a', 'cliente@ipcb.pt', '2004-06-09', 1),
-(11, 'vicente', '$2y$10$X8ktoKrXbMlAW4BCNGug7uI5yOpOeio.LJWzJBerGJsjnotKdEDji', 'vicente.miranda@ipcbcampus.pt', '2004-10-20', 1),
-(12, 'Jerónimo', '$2y$10$irziWPWIWeyP1c69D/93zeVNwHhZsbmeMrX9WnpRIKIJKtM.a.dPy', 'jeronimo@gmail.com', '2025-03-11', 1);
+(26, 'admin', '$2a$10$nXsPMfzJDrM4CUfZ1JT6wuA4tlBjq0b9pVh3xeAmQjrDdj2aS5jf.', 'admin@ipcb.pt', '2004-02-04', 3),
+(27, 'funcionario', '$2a$10$/gp.8PacjVbNTzrrLJkOzeUIZYdhvga15RSqbcRYbSDSp78ioxiHe', 'funcionario@ipcb.pt', '2002-03-07', 2),
+(28, 'cliente', '$2a$10$qf3Se/2dz6opj9Vfowz5geCMQrslEaxe46LKNn1BNetQvMdT.0iCm', 'cliente@ipcb.pt', '1999-10-13', 1);
 
 -- --------------------------------------------------------
 
@@ -441,7 +417,7 @@ ALTER TABLE `bilhete`
 -- AUTO_INCREMENT de tabela `carteiras`
 --
 ALTER TABLE `carteiras`
-  MODIFY `id_carteira` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_carteira` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de tabela `cidades`
@@ -459,7 +435,7 @@ ALTER TABLE `estratos_bancarios`
 -- AUTO_INCREMENT de tabela `registos`
 --
 ALTER TABLE `registos`
-  MODIFY `id_registo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_registo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `rotas`
@@ -483,7 +459,7 @@ ALTER TABLE `tipo_alerta`
 -- AUTO_INCREMENT de tabela `utilizadores`
 --
 ALTER TABLE `utilizadores`
-  MODIFY `id_utilizador` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_utilizador` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de tabela `veiculos`
