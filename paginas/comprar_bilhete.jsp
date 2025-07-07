@@ -1,16 +1,15 @@
-<?php
-session_start();
-include '../basedados/basedados.h';
-
-if ($_SESSION['nivel'] != 1 && $_SESSION['nivel'] != 2) {
-    header('Location: voltar.php');
-    exit();
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="../basedados/basedados.h" %>
+<%
+// Verificar se o utilizador tem nível de acesso de cliente (1) ou funcionário (2)
+Integer nivel = (Integer) session.getAttribute("nivel");
+if(nivel == null || (nivel != 1 && nivel != 2)){
+    response.sendRedirect("voltar.jsp");
+    return;
 }
 
-$id_utilizador = $_SESSION['id_utilizador'];
-
-
-?>
+Integer idUtilizador = (Integer) session.getAttribute("id_utilizador");
+%>
 
 <!DOCTYPE html>
 <html lang="pt">
@@ -39,17 +38,17 @@ $id_utilizador = $_SESSION['id_utilizador'];
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="voltar.php">FelixBus</a>
+        <a class="navbar-brand" href="voltar.jsp">FelixBus</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="voltar.php">Voltar</a>
+                    <a class="nav-link" href="voltar.jsp">Voltar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="logout.php">Logout</a>
+                    <a class="nav-link" href="logout.jsp">Logout</a>
                 </li>
             </ul>
         </div>
@@ -61,11 +60,16 @@ $id_utilizador = $_SESSION['id_utilizador'];
   <div class="form-container">
     <h3 class="text-center mb-4">Comprar Bilhete</h3>
 
-    <?php if (isset($erro)): ?>
-      <div class="alert alert-danger"><?php echo $erro; ?></div>
-    <?php endif; ?>
+    <%
+    String erro = (String) request.getAttribute("erro");
+    if (erro != null) {
+    %>
+      <div class="alert alert-danger"><%= erro %></div>
+    <%
+    }
+    %>
 
-    <form method="post" action="processa_bilhete.php">
+    <form method="post" action="processa_bilhete.jsp">
 
       <div class="mb-3">
         <label for="Origem" class="form-label">Origem</label>

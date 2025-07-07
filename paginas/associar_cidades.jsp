@@ -1,12 +1,12 @@
-<?php
-  session_start();
-  if($_SESSION['nivel'] != 3){
-    header('Location: voltar.php');
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="../basedados/basedados.h" %>
+<%
+  // Verificar se o utilizador tem nível de acesso de administrador (3)
+  if(session.getAttribute("nivel") == null || !session.getAttribute("nivel").equals(3)){
+    response.sendRedirect("voltar.jsp");
+    return;
   }
-  include '../basedados/basedados.h';
-
-  
-?>
+%>
 
 
 <!DOCTYPE html>
@@ -42,7 +42,7 @@
 <!-- Barra de Navegação -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="voltar.php">FelixBus</a>
+        <a class="navbar-brand" href="voltar.jsp">FelixBus</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -50,11 +50,11 @@
             <ul class="navbar-nav ms-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="gestao_cidades.php">Voltar</a>
+                    <a class="nav-link" href="gestao_cidades.jsp">Voltar</a>
                 </li>
-                
+
                 <li class="nav-item">
-                    <a class="nav-link" href="logout.php">Logout</a>
+                    <a class="nav-link" href="logout.jsp">Logout</a>
                 </li>
                
             </ul>
@@ -67,7 +67,7 @@
     <h1>Rotas</h1>
     <br>
 
-    <form method="post" action="filtro_rotas.php">
+    <form method="post" action="filtro_rotas.jsp">
         <input type="text" name="nome_rota" placeholder="Nome da rota">
         <input type="number" name="min_paragens" placeholder="Mínimo de paragens">
         <br><br>
@@ -105,30 +105,37 @@
           </tr>
       </thead>
       <tbody>
-          <?php
-          
-          include '../basedados/basedados.h';
-          $sql = "SELECT * FROM rotas";
-          $result = mysqli_query($conn, $sql);
-          
-          while ($row = mysqli_fetch_assoc($result)) {
+          <%
 
-            
+          PreparedStatement stmt = conn.prepareStatement("SELECT * FROM rotas");
+          ResultSet result = stmt.executeQuery();
 
-                echo "<tr>";
-                echo "<td>" . htmlspecialchars($row['nome_rota']) . "</td>";
-                echo "<td>" . htmlspecialchars($row['taxa_inicial']) . " €</td>";
-                echo "<td>" . htmlspecialchars($row['taxa_paragem']) . " €</td>";
-                echo "<td>" . htmlspecialchars($row['num_paragens']) . "</td>";
-                echo "<td>";
-                echo "<form action='associar.php' method='POST'>";
-                echo "<input type='hidden' name='id_rota' value='" . $row['id_rota'] . "'>";
-                echo "<button type='submit' class='btn btn-primary'>Associar Cidade</button>";
-                echo "</form>";
-                echo "</tr>";
-            
+          while (result.next()) {
+            int idRota = result.getInt("id_rota");
+            String nomeRota = result.getString("nome_rota");
+            double taxaInicial = result.getDouble("taxa_inicial");
+            double taxaParagem = result.getDouble("taxa_paragem");
+            int numParagens = result.getInt("num_paragens");
+
+            // Escapar HTML para segurança
+            if (nomeRota != null) nomeRota = nomeRota.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+
+            out.print("<tr>");
+            out.print("<td>" + (nomeRota != null ? nomeRota : "") + "</td>");
+            out.print("<td>" + taxaInicial + " €</td>");
+            out.print("<td>" + taxaParagem + " €</td>");
+            out.print("<td>" + numParagens + "</td>");
+            out.print("<td>");
+            out.print("<form action='associar.jsp' method='POST'>");
+            out.print("<input type='hidden' name='id_rota' value='" + idRota + "'>");
+            out.print("<button type='submit' class='btn btn-primary'>Associar Cidade</button>");
+            out.print("</form>");
+            out.print("</tr>");
           }
-          ?>
+
+          result.close();
+          stmt.close();
+          %>
       </tbody>
   </table>
 

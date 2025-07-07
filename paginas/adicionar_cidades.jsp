@@ -1,30 +1,30 @@
-<?php
-  session_start();
-  if($_SESSION['nivel'] != 3){
-    header('Location: voltar.php');
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="../basedados/basedados.h" %>
+<%
+  // Verificar se o utilizador tem nível de acesso de administrador (3)
+  if(session.getAttribute("nivel") == null || !session.getAttribute("nivel").equals(3)){
+    response.sendRedirect("voltar.jsp");
+    return;
   }
-  include '../basedados/basedados.h';
 
-  
-?>
-<?php
-    if($_SERVER['REQUEST_METHOD'] == 'POST'){
-        
-    $cidade = $_POST['cidade'];
-   
+  // Processar adição de cidade
+  if("POST".equals(request.getMethod()) && request.getParameter("cidade") != null){
+    String cidade = request.getParameter("cidade");
 
-    $sql = "INSERT INTO cidades (nome_cidade) VALUES ('$cidade')";
-    $res = mysqli_query($conn, $sql);
-    if($res){
-        echo "cidade adicionada com sucesso!";
-        header("refresh:2;url=voltar.php");
+    PreparedStatement stmt = conn.prepareStatement("INSERT INTO cidades (nome_cidade) VALUES (?)");
+    stmt.setString(1, cidade);
+    boolean res = stmt.executeUpdate() > 0;
+    stmt.close();
+
+    if(res){
+        out.println("cidade adicionada com sucesso!");
+        response.setHeader("refresh", "2; url=voltar.jsp");
     }else{
-        echo "Erro ao adicionar cidade!";
-        header("refresh:2;url=voltar.php");
+        out.println("Erro ao adicionar cidade!");
+        response.setHeader("refresh", "2; url=voltar.jsp");
     }
-    }
-    
-?>
+  }
+%>
 
 
 
@@ -61,7 +61,7 @@
 <!-- Barra de Navegação -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="voltar.php">FelixBus</a>
+        <a class="navbar-brand" href="voltar.jsp">FelixBus</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -69,11 +69,11 @@
             <ul class="navbar-nav ms-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="gestao_cidades.php">Voltar</a>
+                    <a class="nav-link" href="gestao_cidades.jsp">Voltar</a>
                 </li>
-                
+
                 <li class="nav-item">
-                    <a class="nav-link" href="logout.php">Logout</a>
+                    <a class="nav-link" href="logout.jsp">Logout</a>
                 </li>
                
             </ul>
@@ -86,7 +86,7 @@
 
             <div class="col-md-4 offset-md-4 align-items-center justify-content-center container"  style="margin-top: 5%;">
             
-            <form action = "adicionar_cidades.php" method = "POST">
+            <form action = "adicionar_cidades.jsp" method = "POST">
               <div class="mb-3">
                 <label for="utilizador" class="form-label">Nome da Cidade</label>
                 <input type="text" class="form-control" id="cidade" name="cidade"  required>

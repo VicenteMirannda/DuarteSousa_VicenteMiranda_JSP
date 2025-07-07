@@ -1,20 +1,18 @@
-<?php
-  session_start();
-  if($_SESSION['nivel'] != 1){
-    header('Location: voltar.php');
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ include file="../basedados/basedados.h" %>
+<%
+  // Verificar se o utilizador tem nível de acesso de administrador (3)
+  if(session.getAttribute("nivel") == null || !session.getAttribute("nivel").equals(3)){
+    response.sendRedirect("voltar.jsp");
+    return;
   }
-  include '../basedados/basedados.h';
-
-  
-?>
-
-
+%>
 <!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Menu Cliente - FelixBus</title>
+    <title>Gestao de Rotas - FelixBus</title>
     <link href="bootstrap.min.css" rel="stylesheet">
 
     
@@ -27,13 +25,12 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        }
+    }
 
-        .btn-menu {
+    .btn-menu {
         padding: 15px;
         font-size: 16px;
-        }
-       
+    }
     </style>    
 
    
@@ -43,15 +40,20 @@
 <!-- Barra de Navegação -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="voltar.php">FelixBus</a>
+        <a class="navbar-brand" href="voltar.jsp">FelixBus</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                
+
                 <li class="nav-item">
-                    <a class="nav-link" href="logout.php">Logout</a>
+                    <a class="nav-link" href="menuadmin.jsp">Voltar</a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link" href="logout.jsp">Logout</a>
                 </li>
                
             </ul>
@@ -62,23 +64,24 @@
 <!-- Botões Centrais -->
 <div class="container center-buttons">
     <div class="row justify-content-center text-center">
-        
         <div class="col-md-6 col-lg-4 mb-3">
-            <a href="consultar_estrato.php" class="btn btn-primary btn-menu w-100">Consultar Estrato</a>
+            <a href="adicionar_cidades.jsp" class="btn btn-primary btn-menu w-100">Adicionar Cidades</a>
         </div>
         <div class="col-md-6 col-lg-4 mb-3">
-            <a href="gestao_carteira.php" class="btn btn-primary btn-menu w-100">Gerir Carteira</a>
-        </div>
-    
-        <div class="col-md-6 col-lg-4 mb-3">
-            <a href="dados_cli_func.php" class="btn btn-primary btn-menu w-100">Visualizar / Editar Dados Pessoais</a>
+            <a href="remover_cidades.jsp" class="btn btn-primary btn-menu w-100">Remover Cidades</a>
         </div>
         <div class="col-md-6 col-lg-4 mb-3">
-            <a href="gerir_bilhetes.php" class="btn btn-primary btn-menu w-100">Gerir Bilhetes</a>
+            <a href="associar_cidades.jsp" class="btn btn-primary btn-menu w-100">Associar Cidades a rotas</a>
         </div>
-        
+        <div class="col-md-6 col-lg-4 mb-3">
+            <a href="listar_cidades.jsp" class="btn btn-primary btn-menu w-100">Listar Cidades</a>
+        </div>
     </div>
 </div>
+
+
+
+
 
 
 <!-- Bootstrap JS (local) -->
