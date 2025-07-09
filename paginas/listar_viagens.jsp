@@ -156,10 +156,10 @@ ResultSet result = stmt.executeQuery(sql);
     </thead>
     <tbody>
         <%
-        boolean hasResults = false;
+        
         while (result.next()) {
             if (result.getInt("estado_viagem") == 1) {
-                hasResults = true;
+                
         %>
                 <tr>
                     <td><%= result.getString("nome_rota").replace("<", "&lt;").replace(">", "&gt;") %></td>
