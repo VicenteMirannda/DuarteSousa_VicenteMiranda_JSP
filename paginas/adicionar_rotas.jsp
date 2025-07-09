@@ -1,33 +1,45 @@
-<?php
-  session_start();
-  if($_SESSION['nivel'] != 3){
-    header('Location: voltar.php');
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %>
+<%@ include file="../basedados/basedados.h" %>
+<%
+  // Verificar sessão
+  Integer nivel = (Integer) session.getAttribute("nivel");
+  if(nivel == null || nivel != 3){
+    response.sendRedirect("voltar.jsp");
+    return;
   }
-  include '../basedados/basedados.h';
-
   
-?>
-<?php
-    if($_SERVER['REQUEST_METHOD'] == 'POST'){
-        
-    $nome_rota = $_POST['nome_rota'];
-    $taxa_inicial = $_POST['taxa_inicial'];
-    $taxa_paragem = $_POST['taxa_paragem'];
-    $num_paragens = $_POST['num_paragens'];
+  // Processar formulário se for POST
+  if("POST".equals(request.getMethod())){
+    String nome_rota = request.getParameter("nome_rota");
+    String taxa_inicial = request.getParameter("taxa_inicial");
+    String taxa_paragem = request.getParameter("taxa_paragem");
+    String num_paragens = request.getParameter("num_paragens");
     
-
-    $sql = "INSERT INTO rotas (nome_rota, taxa_inicial, taxa_paragem, num_paragens) VALUES ('$nome_rota', '$taxa_inicial', '$taxa_paragem', '$num_paragens')";
-    $res = mysqli_query($conn, $sql);
-    if($res){
-        echo "Rota adicionada com sucesso!";
-        header("refresh:2;url=voltar.php");
-    }else{
-        echo "Erro ao adicionar Rota!";
-        header("refresh:2;url=voltar.php");
+    try {
+      String sql = "INSERT INTO rotas (nome_rota, taxa_inicial, taxa_paragem, num_paragens) VALUES (?, ?, ?, ?)";
+      PreparedStatement stmt = conn.prepareStatement(sql);
+      stmt.setString(1, nome_rota);
+      stmt.setString(2, taxa_inicial);
+      stmt.setString(3, taxa_paragem);
+      stmt.setString(4, num_paragens);
+      
+      int result = stmt.executeUpdate();
+      stmt.close();
+      
+      if(result > 0){
+        out.println("Rota adicionada com sucesso!");
+        response.setHeader("refresh", "2;url=voltar.jsp");
+      } else {
+        out.println("Erro ao adicionar Rota!");
+        response.setHeader("refresh", "2;url=voltar.jsp");
+      }
+    } catch (SQLException e) {
+      out.println("Erro ao adicionar Rota: " + e.getMessage());
+      response.setHeader("refresh", "2;url=voltar.jsp");
     }
-    }
-    
-?>
+  }
+%>
 
 
 
@@ -64,7 +76,7 @@
 <!-- Barra de Navegação -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="voltar.php">FelixBus</a>
+        <a class="navbar-brand" href="voltar.jsp">FelixBus</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -72,11 +84,11 @@
             <ul class="navbar-nav ms-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="gestao_rotas.php">Voltar</a>
+                    <a class="nav-link" href="gestao_rotas.jsp">Voltar</a>
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link" href="logout.php">Logout</a>
+                    <a class="nav-link" href="logout.jsp">Logout</a>
                 </li>
                
             </ul>
@@ -89,7 +101,7 @@
 
             <div class="col-md-4 offset-md-4 align-items-center justify-content-center container"  style="margin-top: 5%;">
             
-            <form action = "adicionar_rotas.php" method = "POST">
+            <form action = "adicionar_rotas.jsp" method = "POST">
               <div class="mb-3">
                 <label for="utilizador" class="form-label">Nome da Rota</label>
                 <input type="text" class="form-control" id="nome_rota" name="nome_rota"  required>
@@ -118,3 +130,9 @@
 
 
     </div>
+
+<!-- Bootstrap JS (local) -->
+<script src="bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

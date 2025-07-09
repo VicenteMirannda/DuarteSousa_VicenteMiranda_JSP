@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %>
 <%@ include file="../basedados/basedados.h" %>
 <%
-  // Verificar se o utilizador tem nível de acesso de administrador (3)
-  if(session.getAttribute("nivel") == null || !session.getAttribute("nivel").equals(3)){
+  // Verificar sessão
+  Integer nivel = (Integer) session.getAttribute("nivel");
+  if(nivel == null || nivel != 3){
     response.sendRedirect("voltar.jsp");
     return;
   }
@@ -12,10 +14,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Gestão de Utilizadores - FelixBus</title>
+    <title>Gestão de Rotas - FelixBus</title>
     
     <link href="bootstrap.min.css" rel="stylesheet">
-    
+
     <style>
         body {
             background-color: #f8f9fa;
@@ -25,7 +27,7 @@
             box-shadow: 0 4px 20px rgba(0,0,0,.08);
             transition: all 0.3s ease;
         }
-    </style>
+    </style>      
 </head>
 <body>
 
@@ -49,8 +51,8 @@
 </nav>
 
 <div class="container text-center py-5">
-    <h1 class="display-5 fw-bold">Gestão de Utilizadores</h1>
-    <p class="lead text-muted">Escolha uma das ações para gerir os utilizadores da plataforma.</p>
+    <h1 class="display-5 fw-bold">Gestão de Rotas</h1>
+    <p class="lead text-muted">Crie, edite, visualize e remova as rotas de autocarros da sua frota.</p>
 </div>
 
 <div class="container">
@@ -59,9 +61,9 @@
         <div class="col-md-6 col-lg-4">
             <div class="card h-100 shadow-sm border-0">
                 <div class="card-body d-flex flex-column text-center p-4">
-                    <h5 class="card-title mb-3">Listar Utilizadores</h5>
-                    <p class="card-text text-muted">Visualizar todos os utilizadores registados no sistema.</p>
-                    <a href="listar_utilizadores.jsp" class="btn btn-outline-secondary mt-auto">Listar</a>
+                    <h5 class="card-title mb-3">📋 Listar Rotas</h5>
+                    <p class="card-text text-muted">Consulte todas as rotas ativas, os seus horários e as cidades associadas.</p>
+                    <a href="listar_rotas.jsp" class="btn btn-outline-secondary mt-auto">Listar</a>
                 </div>
             </div>
         </div>
@@ -69,9 +71,9 @@
         <div class="col-md-6 col-lg-4">
             <div class="card h-100 shadow-sm border-0">
                 <div class="card-body d-flex flex-column text-center p-4">
-                    <h5 class="card-title mb-3">Adicionar Utilizador</h5>
-                    <p class="card-text text-muted">Criar um novo registo de utilizador ou administrador.</p>
-                    <a href="adicionar_utilizadores.jsp" class="btn btn-outline-success mt-auto">Adicionar</a>
+                    <h5 class="card-title mb-3">➕ Adicionar Rotas</h5>
+                    <p class="card-text text-muted">Crie uma nova rota no sistema, definindo o seu nome e informações base.</p>
+                    <a href="adicionar_rotas.jsp" class="btn btn-outline-success mt-auto">Adicionar</a>
                 </div>
             </div>
         </div>
@@ -79,29 +81,19 @@
         <div class="col-md-6 col-lg-4">
             <div class="card h-100 shadow-sm border-0">
                 <div class="card-body d-flex flex-column text-center p-4">
-                    <h5 class="card-title mb-3">Editar Utilizador</h5>
-                    <p class="card-text text-muted">Alterar informações de um utilizador existente.</p>
-                    <a href="editar_utilizadores.jsp" class="btn btn-outline-primary mt-auto">Editar</a>
+                    <h5 class="card-title mb-3">✏️ Editar Rotas</h5>
+                    <p class="card-text text-muted">Altere as informações de uma rota já existente na base de dados.</p>
+                    <a href="editar_rotas.jsp" class="btn btn-outline-primary mt-auto">Editar</a>
                 </div>
             </div>
         </div>
-
+        
         <div class="col-md-6 col-lg-4">
             <div class="card h-100 shadow-sm border-0">
                 <div class="card-body d-flex flex-column text-center p-4">
-                    <h5 class="card-title mb-3">Remover Utilizador</h5>
-                    <p class="card-text text-muted">Eliminar permanentemente o registo de um utilizador.</p>
-                    <a href="remover_utilizadores.jsp" class="btn btn-outline-danger mt-auto">Remover</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-lg-4">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body d-flex flex-column text-center p-4">
-                    <h5 class="card-title mb-3">Aceitar Clientes</h5>
-                    <p class="card-text text-muted">Aprovar novos registos de clientes pendentes.</p>
-                    <a href="aceitar_utilizadores.jsp" class="btn btn-outline-info mt-auto">Aceitar</a>
+                    <h5 class="card-title mb-3">➖ Remover Rotas</h5>
+                    <p class="card-text text-muted">Elimine permanentemente uma rota que já não será utilizada.</p>
+                    <a href="remover_rotas.jsp" class="btn btn-outline-danger mt-auto">Remover</a>
                 </div>
             </div>
         </div>
