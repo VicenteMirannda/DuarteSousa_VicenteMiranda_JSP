@@ -1,6 +1,6 @@
-<?php
-  include '../basedados/basedados.h';
-?>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*" %>
+<%@ include file="../basedados/basedados.h" %>
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -67,7 +67,7 @@
 <!-- Barra de Navegação -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="voltar.php">FelixBus</a>
+        <a class="navbar-brand" href="voltar.jsp">FelixBus</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -75,11 +75,11 @@
             <ul class="navbar-nav ms-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="alertas.php">Voltar</a>
+                    <a class="nav-link" href="alertas.jsp">Voltar</a>
                 </li>
                 
                 <li class="nav-item">
-                    <a class="nav-link" href="logout.php">Logout</a>
+                    <a class="nav-link" href="logout.jsp">Logout</a>
                 </li>
             </ul>
         </div>
@@ -96,17 +96,40 @@
             </tr>
         </thead>
         <tbody>
-            <?php
-                $id_alerta = isset($_POST['id_alerta']) ? intval($_POST['id_alerta']) : 0;
-                $sql = "SELECT * FROM alertas WHERE id_alerta = $id_alerta";
-                $result = mysqli_query($conn, $sql);
-
-                while ($row = mysqli_fetch_assoc($result)) {
-                    echo "<tr>";
-                    echo "<td>" . htmlspecialchars($row['descricao']) . "</td>";
-                    echo "</tr>";
+            <%
+                String id_alerta_param = request.getParameter("id_alerta");
+                int id_alerta = 0;
+                if (id_alerta_param != null) {
+                    try {
+                        id_alerta = Integer.parseInt(id_alerta_param);
+                    } catch (NumberFormatException e) {
+                        id_alerta = 0;
+                    }
                 }
-            ?>
+                
+                if (id_alerta > 0) {
+                    try {
+                        String sql = "SELECT * FROM alertas WHERE id_alerta = ?";
+                        PreparedStatement stmt = conn.prepareStatement(sql);
+                        stmt.setInt(1, id_alerta);
+                        ResultSet result = stmt.executeQuery();
+
+                        while (result.next()) {
+            %>
+                            <tr>
+                                <td><%= result.getString("descricao") != null ? result.getString("descricao") : "" %></td>
+                            </tr>
+            <%
+                        }
+                        result.close();
+                        stmt.close();
+                    } catch (SQLException e) {
+                        out.println("Erro ao carregar descrição do alerta: " + e.getMessage());
+                    }
+                } else {
+                    out.println("ID do alerta inválido ou não fornecido.");
+                }
+            %>
         </tbody>
     </table>
 </div>
