@@ -92,7 +92,7 @@ sql += whereClause + orderClause;
             <ul class="navbar-nav ms-auto">
 
                 <li class="nav-item">
-                    <a class="nav-link" href="listar_alertas.jsp">Voltar</a>
+                    <a class="nav-link" href="gestao_alertas.jsp">Voltar</a>
                 </li>
                 
                 <li class="nav-item">
@@ -106,7 +106,7 @@ sql += whereClause + orderClause;
 
 <div class="container">
   <br>
-    <h1>Alertas Filtrados</h1>
+    <h1>Alertas</h1>
     <br>
 
     <form method="post" action="filtro_alertas.jsp">
