@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 07-Jul-2025 às 19:42
+-- Tempo de geração: 10-Jul-2025 às 19:23
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -81,7 +81,7 @@ CREATE TABLE `carteiras` (
 INSERT INTO `carteiras` (`id_carteira`, `id_utilizador`, `saldo`) VALUES
 (12, 26, 0),
 (13, 27, 0),
-(14, 28, 0);
+(14, 28, 94);
 
 -- --------------------------------------------------------
 
@@ -122,6 +122,16 @@ CREATE TABLE `estratos_bancarios` (
   `valor` int(11) NOT NULL,
   `tipo_transacao` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `estratos_bancarios`
+--
+
+INSERT INTO `estratos_bancarios` (`id_transacao`, `id_carteira`, `id_utilizador`, `data_transacao`, `valor`, `tipo_transacao`) VALUES
+(17, 14, 28, '2025-07-10', 100, 1),
+(18, 14, 28, '2025-07-10', 6, 0),
+(19, 14, 28, '2025-07-10', 7, 0),
+(20, 14, 28, '2025-07-10', 7, 1);
 
 -- --------------------------------------------------------
 
@@ -250,7 +260,7 @@ CREATE TABLE `utilizadores` (
 
 INSERT INTO `utilizadores` (`id_utilizador`, `nome_utilizador`, `password`, `email`, `data_nasc`, `nivel_acesso`) VALUES
 (26, 'admin', '$2a$10$nXsPMfzJDrM4CUfZ1JT6wuA4tlBjq0b9pVh3xeAmQjrDdj2aS5jf.', 'admin@ipcb.pt', '2004-02-04', 3),
-(27, 'funcionario', '$2a$10$/gp.8PacjVbNTzrrLJkOzeUIZYdhvga15RSqbcRYbSDSp78ioxiHe', 'funcionario@ipcb.pt', '2002-03-07', 2),
+(27, 'funcionario', '$2a$10$/gp.8PacjVbNTzrrLJkOzeUIZYdhvga15RSqbcRYbSDSp78ioxiHe', 'funcionario@ipcb.pt', '2002-03-07', 1),
 (28, 'cliente', '$2a$10$qf3Se/2dz6opj9Vfowz5geCMQrslEaxe46LKNn1BNetQvMdT.0iCm', 'cliente@ipcb.pt', '1999-10-13', 1);
 
 -- --------------------------------------------------------
@@ -296,7 +306,7 @@ CREATE TABLE `viagem` (
 INSERT INTO `viagem` (`id_viagem`, `id_rota`, `id_veiculo`, `data`, `hora_partida`, `hora_chegada`, `vagas`, `estado_viagem`) VALUES
 (7, 1, 1, '2025-05-27', '16:50:52', '19:00:00', 35, 1),
 (8, 1, 1, '2025-05-31', '14:20:00', '20:00:00', 32, 0),
-(9, 1, 1, '2026-06-17', '16:40:00', '18:25:00', 100, 1),
+(9, 1, 1, '2026-06-17', '16:40:00', '18:25:00', 99, 1),
 (10, 2, 1, '2025-06-30', '10:00:00', '10:00:00', 40, 1);
 
 --
@@ -411,7 +421,7 @@ ALTER TABLE `alertas`
 -- AUTO_INCREMENT de tabela `bilhete`
 --
 ALTER TABLE `bilhete`
-  MODIFY `id_bilhete` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_bilhete` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de tabela `carteiras`
@@ -429,7 +439,7 @@ ALTER TABLE `cidades`
 -- AUTO_INCREMENT de tabela `estratos_bancarios`
 --
 ALTER TABLE `estratos_bancarios`
-  MODIFY `id_transacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id_transacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de tabela `registos`
