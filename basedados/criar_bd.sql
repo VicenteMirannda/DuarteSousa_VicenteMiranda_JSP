@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 10-Jul-2025 às 19:23
+-- Tempo de geração: 11-Jul-2025 às 18:50
 -- Versão do servidor: 10.4.32-MariaDB
--- versão do PHP: 8.2.12
+-- versão do PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -101,7 +101,7 @@ CREATE TABLE `cidades` (
 INSERT INTO `cidades` (`id_cidade`, `nome_cidade`) VALUES
 (2, 'Castelo Branco'),
 (8, 'Coimbra'),
-(4, 'Covilhã'),
+(4, 'Covilha'),
 (5, 'Fundão'),
 (6, 'Guarda'),
 (7, 'Leiria'),
@@ -187,7 +187,7 @@ CREATE TABLE `rotas` (
 
 INSERT INTO `rotas` (`id_rota`, `nome_rota`, `taxa_inicial`, `taxa_paragem`, `num_paragens`) VALUES
 (1, 'Linha Beira Baixa', 5, 1, 7),
-(2, 'linha do norte', 3, 1, 8);
+(2, 'Linha do Norte', 3, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -214,10 +214,10 @@ INSERT INTO `rotas_cidade` (`id_rotas_cidade`, `id_rota`, `id_cidade`, `num_para
 (5, 1, 4, 5),
 (6, 1, 6, 6),
 (10, 1, 8, 7),
-(11, 2, 3, 5),
-(12, 2, 8, 6),
-(13, 2, 4, 7),
-(14, 2, 5, 8);
+(11, 2, 3, 1),
+(12, 2, 8, 2),
+(13, 2, 4, 3),
+(14, 2, 5, 4);
 
 -- --------------------------------------------------------
 
@@ -307,7 +307,7 @@ INSERT INTO `viagem` (`id_viagem`, `id_rota`, `id_veiculo`, `data`, `hora_partid
 (7, 1, 1, '2025-05-27', '16:50:52', '19:00:00', 35, 1),
 (8, 1, 1, '2025-05-31', '14:20:00', '20:00:00', 32, 0),
 (9, 1, 1, '2026-06-17', '16:40:00', '18:25:00', 99, 1),
-(10, 2, 1, '2025-06-30', '10:00:00', '10:00:00', 40, 1);
+(10, 2, 1, '2025-06-30', '10:00:00', '10:00:00', 38, 1);
 
 --
 -- Índices para tabelas despejadas
@@ -421,13 +421,13 @@ ALTER TABLE `alertas`
 -- AUTO_INCREMENT de tabela `bilhete`
 --
 ALTER TABLE `bilhete`
-  MODIFY `id_bilhete` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_bilhete` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de tabela `carteiras`
 --
 ALTER TABLE `carteiras`
-  MODIFY `id_carteira` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_carteira` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de tabela `cidades`
@@ -439,13 +439,13 @@ ALTER TABLE `cidades`
 -- AUTO_INCREMENT de tabela `estratos_bancarios`
 --
 ALTER TABLE `estratos_bancarios`
-  MODIFY `id_transacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_transacao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de tabela `registos`
 --
 ALTER TABLE `registos`
-  MODIFY `id_registo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_registo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `rotas`
@@ -469,7 +469,7 @@ ALTER TABLE `tipo_alerta`
 -- AUTO_INCREMENT de tabela `utilizadores`
 --
 ALTER TABLE `utilizadores`
-  MODIFY `id_utilizador` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_utilizador` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de tabela `veiculos`
@@ -512,8 +512,8 @@ ALTER TABLE `carteiras`
 -- Limitadores para a tabela `estratos_bancarios`
 --
 ALTER TABLE `estratos_bancarios`
-  ADD CONSTRAINT `fk_carteira` FOREIGN KEY (`id_carteira`) REFERENCES `carteiras` (`id_carteira`),
-  ADD CONSTRAINT `fk_estrato_uti` FOREIGN KEY (`id_utilizador`) REFERENCES `utilizadores` (`id_utilizador`);
+  ADD CONSTRAINT `fk_carteira` FOREIGN KEY (`id_carteira`) REFERENCES `carteiras` (`id_carteira`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_estrato_uti` FOREIGN KEY (`id_utilizador`) REFERENCES `utilizadores` (`id_utilizador`) ON DELETE CASCADE;
 
 --
 -- Limitadores para a tabela `rotas_cidade`
