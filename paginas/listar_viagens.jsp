@@ -156,8 +156,9 @@ ResultSet result = stmt.executeQuery(sql);
     </thead>
     <tbody>
         <%
-        
+        boolean hasResults = false;
         while (result.next()) {
+            hasResults = true;
             if (result.getInt("estado_viagem") == 1) {
                 
         %>
